@@ -1,5 +1,30 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath ('mysql:mysql-connector-java:6.0.6')
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:1.5.8.RELEASE')
+    }
+
+}
+plugins {
+    id "org.flywaydb.flyway" version "4.2.0"
+}
+
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'org.springframework.boot'
 apply plugin: 'idea'
 apply plugin: 'jacoco'
+
+group 'selfeval5'
+version '1.0.0'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+defaultTasks 'clean', 'build'
 
 idea {
     module {
@@ -7,7 +32,6 @@ idea {
         excludeDirs += file('build')
     }
 }
-
 
 test{
     systemProperties = System.properties
@@ -17,7 +41,7 @@ jacocoTestCoverageVerification {
     violationRules {
         rule {
             element = 'CLASS'
-            includes = ['be.cegeka.X.application.*','be.cegeka.X.domain.*']
+            includes = ['be.cegeka.selfEval5.application.*','be.cegeka.selfEval5.domain.*']
             limit {
                 counter = 'BRANCH'
                 minimum = 0.7
@@ -25,11 +49,46 @@ jacocoTestCoverageVerification {
         }
         rule {
             element = 'PACKAGE'
-            includes = ['be.cegeka.X.application.*','be.cegeka.X.domain.*']
+            includes = ['be.cegeka.selfEval5.application.*','be.cegeka.selfEval5.domain.*']
             limit {
                 counter = 'COMPLEXITY'
                 minimum = 0.5
             }
         }
     }
+}
+
+jar {
+    baseName = 'selfeval5'
+    version = version
+    manifest {
+        attributes 'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web:1.5.8.RELEASE') {
+        exclude(module: 'commons-logging')
+    }
+    compile "org.springframework.boot:spring-boot-starter-actuator"
+    compile "org.springframework.boot:spring-boot-starter-data-jpa"
+    compile "mysql:mysql-connector-java"
+    compile 'org.apache.commons:commons-lang3:3.6'
+    compile 'org.slf4j:slf4j-api:1.7.25'
+    compile 'ch.qos.logback:logback-classic:1.1.5'
+    compile 'org.slf4j:jcl-over-slf4j:1.7.25'
+    compile 'org.slf4j:jul-to-slf4j:1.7.25'
+    compile 'org.slf4j:log4j-over-slf4j:1.7.25'
+    compile 'joda-time:joda-time:2.9.9'
+    compile 'javax.inject:javax.inject:1'
+    compile 'org.flywaydb:flyway-core:4.2.0'
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:2.11.0'
+    testCompile 'org.assertj:assertj-core:3.8.0'
 }
