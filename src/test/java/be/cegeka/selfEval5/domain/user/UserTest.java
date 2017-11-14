@@ -12,7 +12,7 @@ public class UserTest {
 
     @Before
     public void setUp() throws Exception {
-        user = new User(user.getId(), "Kiki");
+        user = new User(1, "Kiki");
 
     }
 
