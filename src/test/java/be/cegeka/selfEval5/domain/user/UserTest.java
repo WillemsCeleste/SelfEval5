@@ -13,7 +13,7 @@ public class UserTest {
 
     @Before
     public void setUp() throws Exception {
-        user = new User(1, "Kiki");
+        user = new User("Kiki");
 
     }
 
@@ -29,7 +29,7 @@ public class UserTest {
 
     @Test
     public void equals_ObjectWithSameEverthing_IsTrue() throws Exception {
-        User expected = new User(1, "Kiki");
+        User expected = new User("Kiki");
         assertThat(user).isEqualTo(expected);
     }
 
